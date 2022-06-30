@@ -19,6 +19,11 @@ export interface IContract {
   status: ContractStatus
 }
 
+export interface IProfile {
+  id: number,
+  balance: number,
+}
+
 export interface IJob {
   description: string,
   price: number,
