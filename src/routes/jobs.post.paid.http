@@ -1,0 +1,2 @@
+POST http://localhost:3001/jobs/4/pay
+profile_id: 7

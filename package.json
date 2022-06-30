@@ -14,7 +14,8 @@
     "test": "npm run test:integration",
     "test:unit": "jest ./dist",
     "test:integration": "jest ./test",
-    "build": "tsc"
+    "build": "tsc",
+    "pretest": "npm run seed"
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
