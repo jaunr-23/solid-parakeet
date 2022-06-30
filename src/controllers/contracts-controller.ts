@@ -19,6 +19,6 @@ export class ContractController {
       }
     });
 
-    res.json(contracts);
+    res.json(contracts).end();
   }
 }

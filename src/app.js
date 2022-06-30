@@ -23,6 +23,6 @@ app.get('/contracts/:id', getProfile ,async (req, res) =>{
     if(contract.ClientId !== req.profile.id && contract.ContractorId !== req.profile.id) { 
         return res.status(403).end();
     }
-    res.json(contract)
+    res.json(contract).end();
 })
 module.exports = app;
