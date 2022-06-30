@@ -6,6 +6,11 @@ export enum ContractStatus {
   TERMINATED = 'terminated'
 }
 
+export enum ProfileTypes {
+  CONTRACTOR = 'contractor',
+  CLIENT = 'client',
+}
+
 export interface IContract {
   ClientId: string,
   ContractorId: string,
@@ -15,5 +20,5 @@ export interface IContract {
 
 export interface RequestCustom extends Request
 {
-    profile: {id: number};
+    profile: {id: number, type: ProfileTypes };
 }
