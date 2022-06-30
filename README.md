@@ -6,7 +6,12 @@
 
 ## SETUP
 
-##
+- npm install
+
+## TESTING
+
+- npm start
+- npm run test
 
 # DEEL BACKEND TASK DESCRIPTION
 
