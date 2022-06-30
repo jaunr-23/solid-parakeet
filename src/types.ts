@@ -12,10 +12,19 @@ export enum ProfileTypes {
 }
 
 export interface IContract {
+  id: number,
   ClientId: string,
   ContractorId: string,
   terms: string,
   status: ContractStatus
+}
+
+export interface IJob {
+  description: string,
+  price: number,
+  paid: boolean,
+  paymentDate: string,
+  Contract: IContract,
 }
 
 export interface RequestCustom extends Request

@@ -8,6 +8,13 @@ export class JobController {
     const allowedStatus = [ContractStatus.IN_PROGRESS, ContractStatus.NEW];
     const profileId = req.profile.id;
     const jobs = await Job.findAll({
+      include: [{
+        model: Contract,
+        where: {
+          status: allowedStatus,
+          [Op.or]: [{ ClientId: profileId }, { ContractorId: profileId }]
+        }
+      }],
       where: {
         paid: null,
       }
