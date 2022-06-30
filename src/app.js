@@ -2,8 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const {sequelize} = require('./model')
 const {getProfile} = require('./middleware/getProfile')
+const {contractRouter} = require('./routes/contracts-routes');
+
 const app = express();
+
 app.use(bodyParser.json());
+app.use('/', contractRouter);
 app.set('sequelize', sequelize)
 app.set('models', sequelize.models)
 

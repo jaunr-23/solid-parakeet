@@ -1,4 +1,4 @@
-import { IContract } from '../src/types'
+import { ContractStatus, IContract } from '../src/types'
 import axios from 'axios';
 
 const serverUrl = 'http://localhost:3001';
@@ -51,6 +51,40 @@ describe('Contracts integration test ', () => {
       } catch (error) {
         expect(error.response.status).toBe(404);
         
+      }
+    });
+
+    it('GET all contracts /contracts/ a for a valid Client ID', async () => {
+      const headers = { profile_id: 1 };
+      const response = await axios.get<IContract[]>(`${serverUrl}/contracts`, {
+        headers
+      });
+
+      expect(response.data.length).toBe(1);
+      expect(response.data[0].ClientId).toBe(1);
+      expect(response.data[0].ContractorId).toBe(6);
+      expect(response.data[0].status).toBe(ContractStatus.IN_PROGRESS);
+    });
+
+    it('GET all contracts /contracts/ a for a valid Contractor ID', async () => {
+      const headers = { profile_id: 7 };
+      const response = await axios.get<IContract[]>(`${serverUrl}/contracts`, {
+        headers
+      });
+
+      expect(response.data.length).toBe(3);
+      expect(response.data[0].status).toBe(ContractStatus.IN_PROGRESS);
+    });
+
+    it('GET all contracts /contracts/ a for a invalid profile', async () => {
+      const headers = { profile_id: 71 };
+
+      try {
+        await axios.get<IContract[]>(`${serverUrl}/contracts`, {
+          headers
+        });
+      } catch (error) {
+        expect(error.response.status).toBe(401);
       }
     });
   });
