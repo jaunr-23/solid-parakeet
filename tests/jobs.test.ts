@@ -1,7 +1,7 @@
 import { randomUUID } from 'crypto';
 import axios from 'axios';
 
-const serverUrl = 'http://localhost:80';
+const serverUrl = 'http://localhost:3001';
 
 describe('Jobs integration test ', () => {
   describe('Jobs REST API', () => {
