@@ -11,7 +11,11 @@
 ## TESTING
 
 - npm start
-- npm run test
+- npm run test (in another terminal)
+
+## DEPLOYMENT
+
+- docker build .
 
 # DEEL BACKEND TASK DESCRIPTION
 
