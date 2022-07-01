@@ -11,7 +11,6 @@ export class AdminController {
    * @param response 
    */
   async getBestProfession(req: RequestCustom, res: Response){
-    console.log(req.query);
     let startDate;
     let endDate;
     try {
@@ -26,10 +25,10 @@ export class AdminController {
 
     const [results, metadata] = await sequelize.query(
       `
-      SELECT SUM(price), ContractorId, Profiles.firstName, Profiles.lastName, Profiles.profession FROM Jobs 
+      SELECT SUM(price) as revenue, ContractorId, Profiles.firstName, Profiles.lastName, Profiles.profession FROM Jobs 
       LEFT JOIN Contracts ON Jobs.ContractId = Contracts.id
       LEFT JOIN Profiles ON Contracts.ContractorId = Profiles.id
-      WHERE Jobs.paid = 1 AND Jobs.updatedAt  BETWEEN '${startDate}' AND '${endDate}'
+      WHERE Jobs.paid = 1 AND Profiles.type = 'contractor' AND Jobs.updatedAt BETWEEN '${startDate.toISO()}' AND '${endDate.toISO()}'
       GROUP BY ContractorId
       ORDER BY 1 DESC
       LIMIT 1
@@ -45,7 +44,34 @@ export class AdminController {
    * @param req 
    * @param response 
    */
-  async getBestClients(req: RequestCustom, response: Response){
+  async getBestClients(req: RequestCustom, res: Response){
+    let startDate;
+    let endDate;
+    try {
+      startDate = DateTime.fromISO(req.query.start as string);
+      endDate = DateTime.fromISO(req.query.end as string); 
+    } catch (error) {
+      return res.status(400).send();
+    }
+
+    const limit = req.query.limit || 2;
+
+    if(!startDate || !endDate) { return res.status(400).send() }
+    if(startDate > endDate) { return res.status(400).send('Error: start date greater than end date') }
+
+    const [results, metadata] = await sequelize.query(
+      `
+      SELECT SUM(price) as revenue, ClientId, Profiles.firstName, Profiles.lastName, Profiles.profession FROM Jobs 
+      LEFT JOIN Contracts ON Jobs.ContractId = Contracts.id
+      LEFT JOIN Profiles ON Contracts.ClientId = Profiles.id
+      WHERE Jobs.paid = 1 AND Profiles.type = 'client' AND Jobs.updatedAt BETWEEN '${startDate.toISO()}' AND '${endDate.toISO()}'
+      GROUP BY ClientId
+      ORDER BY 1 DESC
+      LIMIT ${limit}
+      `
+    );
+
+    return res.status(200).json(results);
 
   }
 }

@@ -29,5 +29,33 @@ describe('Admin integration test ', () => {
         expect(error.response.status).toBe(400);
       }
     });
+
+    it('POST /admin/best-clients for a valid date range with default limit', async () => {
+
+      const response = await axios.get(`${serverUrl}/admin/best-clients?start=2022-01-01&end=2022-08-01`);
+      expect(response.status).toBe(200);
+      expect(response.data.length).toBe(2);
+      expect(response.data[0].firstName).toBe('Ash');
+      expect(response.data[0].lastName).toBe('Kethcum');
+      expect(response.data[0].profession).toBe('Pokemon master');
+    });
+
+    it('POST /admin/best-clients for a valid date range with limit 10', async () => {
+
+      const response = await axios.get(`${serverUrl}/admin/best-clients?start=2022-01-01&end=2022-08-01&limit=10`);
+      expect(response.status).toBe(200);
+      expect(response.data.length).toBe(4);
+      expect(response.data[0].firstName).toBe('Ash');
+      expect(response.data[0].lastName).toBe('Kethcum');
+      expect(response.data[0].profession).toBe('Pokemon master');
+    });
+
+    it('POST /admin/best-profession for a invalid date range', async () => {
+      try {
+        await axios.get(`${serverUrl}/admin/best-clients?start=2022-11-01&end=2022-08-01`);
+      } catch (error) {
+        expect(error.response.status).toBe(400);
+      }
+    });
   });
 });
