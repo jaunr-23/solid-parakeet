@@ -16,7 +16,6 @@ export class BalanceController {
     const clientId = parseInt(req.params.userId);
     const profileId = req.profile.id; 
     const depositAmount = req.body.amount;
-    console.log(clientId, depositAmount, profileId);
 
     if (!clientId || !depositAmount || profileId !== clientId) { return res.status(400).send('Error: bad params') }
 
@@ -30,7 +29,7 @@ export class BalanceController {
 
     const prices = jobs.map((job) => job.price );
     const unpaidBalance = prices.reduce((prev, curr) => prev + curr, 0);
-    
+
     if (depositAmount > unpaidBalance * 0.25 ) { return res.status(400).send('Error: amount is too big') }
 
     await Profile.update({ balance: profile.balance + depositAmount }, { where: { id: profile.id }});
