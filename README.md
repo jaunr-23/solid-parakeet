@@ -11,7 +11,8 @@ Hi there!. This repo is the solution for the deel backend task, I assumed the fo
 - Caching. If some of the requests are cached it will help to have better performance
 - Better input validation, is quite basic right now.
 - Think on more cases for tests and improve error handling
-- Concurrency?. SQLite can handle only 1 write lock. I think Sequelize handles that for us, but I need to read more the documentation... 
+- Concurrency?. SQLite can handle only 1 write lock. I think Sequelize handles that for us, but I need to read more the documentation... Improve writes into transactions
+- Github actions for CI/CD or similar
 
 
 ## TIME TRACKING (AROUND 4 HOURS IN TOTAL)
@@ -33,8 +34,9 @@ Hi there!. This repo is the solution for the deel backend task, I assumed the fo
 
 ## DEPLOYMENT
 
-- docker build .
-
+- docker build -t deel .
+- docker run -dp 3000:3001 deel
+- optional: run tests against docker with changing the port for testing to 3000
 # DEEL BACKEND TASK DESCRIPTION
 
 [See description](TASK.md)
