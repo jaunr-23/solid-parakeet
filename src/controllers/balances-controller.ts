@@ -13,11 +13,12 @@ export class BalanceController {
    * @param res Express response
    */
   async deposit(req: RequestCustom, res: Response){
-    const clientId = parseInt(req.params.user_id);
+    const clientId = parseInt(req.params.userId);
     const profileId = req.profile.id; 
-    const depositAmount = req.body.amount; 
+    const depositAmount = req.body.amount;
+    console.log(clientId, depositAmount, profileId);
 
-    if (!clientId || !depositAmount || profileId !== clientId) { return res.status(400).send() }
+    if (!clientId || !depositAmount || profileId !== clientId) { return res.status(400).send('Error: bad params') }
 
     const profile: IProfile | null = await Profile.findOne({ where: { id: clientId }}) as any;
 
