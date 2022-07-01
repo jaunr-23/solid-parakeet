@@ -37,13 +37,23 @@ describe('Jobs integration test ', () => {
       expect(response.data.length).toBe(0);
     });
 
-    it('POST /jobs/:job_id/pay for a valid Job ID', async () => {
+    it('POST /jobs/:job_id/pay for a valid Job ID and client ID', async () => {
       const headers = { profile_id: 7 };
 
       const response = await axios.post<number[]>(`${serverUrl}/jobs/4/pay`, {}, { headers });
       expect(response.status).toBe(200);
       expect(response.data.length).toBe(1);
 
+    });
+
+    it('POST /jobs/:job_id/pay for a valid Job ID and not valid client ID', async () => {
+      const headers = { profile_id: 1 };
+
+      try {
+        await axios.post<number[]>(`${serverUrl}/jobs/4/pay`, {}, { headers });
+      } catch (error) {
+        expect(error.response.status).toBe(404);
+      }
     });
   });
 });
