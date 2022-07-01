@@ -13,7 +13,7 @@
     "seed": "node ./scripts/seedDb.js",
     "test": "npm run test:integration",
     "test:unit": "jest ./dist",
-    "test:integration": "jest ./test",
+    "test:integration": "jest --detectOpenHandles ./test",
     "build": "tsc",
     "pretest": "npm run seed"
   },

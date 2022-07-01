@@ -40,8 +40,10 @@ describe('Jobs integration test ', () => {
     it('POST /jobs/:job_id/pay for a valid Job ID', async () => {
       const headers = { profile_id: 7 };
 
-      const response = await axios.get<IJob[]>(`${serverUrl}/jobs/4/pay`, { headers });
+      const response = await axios.post<number[]>(`${serverUrl}/jobs/4/pay`, {}, { headers });
       expect(response.status).toBe(200);
+      expect(response.data.length).toBe(1);
+
     });
   });
 });

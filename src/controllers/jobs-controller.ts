@@ -54,7 +54,7 @@ export class JobController {
     const contractorBalance = contractor.balance;
 
     const price = job.price;
-    if (clientBalance < price){ return res.status(422).send(); }
+    if (clientBalance < price){ return res.status(422).send('Error: not enough balance'); }
 
     // TODO: Put this code inside a transaction... 
     const numberJobsUpdated = await Job.update({ paid: true, }, { where: {id: jobId } });
