@@ -20,7 +20,7 @@ export class JobController {
       }
     });
 
-    res.json(jobs).end();
+    res.json(jobs).send();
   }
 
   async setPayment(req: RequestCustom, res: Response){
@@ -41,26 +41,26 @@ export class JobController {
       }
     }) as any;
 
-    if (!job) { return res.status(404).end(); }
+    if (!job) { return res.status(404).send(); }
 
     const clientId = job.Contract.ClientId;
     const contractorId = job.Contract.ContractorId;
     const client: IProfile | null = await Profile.findOne({where: {id: clientId }}) as any;
     const contractor: IProfile | null = await Profile.findOne({where: {id: contractorId }}) as any;
 
-    if (!client || !contractor) { return res.status(422).end(); }
+    if (!client || !contractor) { return res.status(422).send(); }
 
     const clientBalance = client.balance;
     const contractorBalance = contractor.balance;
 
     const price = job.price;
-    if (clientBalance < price){ return res.status(422).end(); }
+    if (clientBalance < price){ return res.status(422).send(); }
 
     // TODO: Put this code inside a transaction... 
     const numberJobsUpdated = await Job.update({ paid: true, }, { where: {id: jobId } });
     await Profile.update({ balance: clientBalance - price, }, { where: { id: clientId }});
     await Profile.update({ balance: contractorBalance + price, }, { where: { id: contractorId }});
 
-    return res.status(200).send(numberJobsUpdated).end();
+    return res.status(200).send(numberJobsUpdated).send();
   }
 }
